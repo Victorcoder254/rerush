@@ -1,0 +1,39 @@
+{% extends 'files/base.html' %}
+{% load static %}
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<hr>
+<br>
+<hr>
+<br>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">User Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Username:</h6>
+                            <p>{{ user_profile.username }}</p>
+                            <h6>Email:</h6>
+                            <p>{{ user_profile.email }}</p>
+                            <h6>First Name:</h6>
+                            <p>{{ user_profile.first_name }}</p>
+                            <h6>Last Name:</h6>
+                            <p>{{ user_profile.last_name }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <!-- Custom Bootstrap button for logout -->
+                    <a href="{% url 'logout_user' %}" class="btn btn-outline-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

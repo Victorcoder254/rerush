@@ -1,0 +1,312 @@
+{% extends 'files/base.html' %}
+{% load static %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+
+<!-- Modal Search Start -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content rounded-0">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <div class="input-group w-75 mx-auto d-flex">
+                    <input type="search" class="form-control p-3" placeholder="keywords"
+                        aria-describedby="search-icon-1">
+                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Search End -->
+
+<hr>
+<br>
+
+<!-- Checkout Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Billing details</h1>
+
+        <!-- Custom Message for Delivery Fee -->
+        <div class="alert alert-info" role="alert">
+            Free delivery for orders within Nairobi and Thika road.<br>
+            The delivery fee is 100 Kshs for orders outside Nairobi.
+        </div>
+
+        <div>
+            <div class="row g-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6 order-1 order-lg-0">
+                            <div class="d-flex flex-column">
+                                <form id="form">
+                                    <div class="col-md-12 col-lg-6 col-xl-7" id="shipping-info">
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-6">
+                                                <div class="form-item w-100">
+                                                    <label class="form-label my-3">First Name<sup>*</sup></label>
+                                                    <input type="text" name="firstname" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-6">
+                                                <div class="form-item w-100">
+                                                    <label class="form-label my-3">Last Name<sup>*</sup></label>
+                                                    <input type="text" name="lastname" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <label class="form-label my-3">Address<sup>*</sup></label>
+                                            <input class="form-control" type="text" name="address" required
+                                                placeholder="Address.. 'Utawala Mc'">
+                                        </div>
+                                        <div class="form-item">
+                                            <label class="form-label my-3">Street Address<sup>*</sup></label>
+                                            <input class="form-control" type="text" name="state"
+                                                placeholder="Grace Apartment" required>
+                                        </div>
+                                        <div class="form-item">
+                                            <label class="form-label my-3">City <sup>*</sup></label>
+                                            <input class="form-control" type="text" name="city" placeholder="City.."
+                                                required>
+                                        </div>
+                                        <div class="form-item">
+                                            <label class="form-label my-3">Mobile<sup>*</sup></label>
+                                            <input type="tel" class="form-control" name="mobile" placeholder="0780.."
+                                                required>
+                                        </div>
+                                        <div class="form-item">
+                                            <label class="form-label my-3">Email Address<sup>*</sup></label>
+                                            <input type="email" class="form-control" name="email" placeholder="email.."
+                                                required>
+                                        </div>
+                                        <hr>
+                                        <div class="form-item">
+                                            <textarea name="order_notes" class="form-control" spellcheck="false"
+                                                cols="30" rows="11" placeholder="Order Notes (Optional)"></textarea>
+                                        </div>
+                                        <hr><div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <!--<input id="form-button" class="btn btn-success me-md-2" type="submit" onclick="myFunction()"
+                                                value="Submit | Pay Now">-->
+                                            <input id="form-button-pod" class="btn btn-primary" type="submit" onclick="payOnDeliveryFunction()"
+                                                value="Submit | Pay on Delivery">
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <br>
+                                <div class="box-element hidden" id="payment-info" style="display: none;">
+                                    <small>Paypal Options</small>
+                                    <hr>
+                                    <div id="paypal-button-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6 col-xl-5 order-0 order-lg-1">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Products</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in items %}
+                                        <tr>
+                                            <th scope="row">
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <img src="{{ item.product.image.url }}"
+                                                        class="img-fluid rounded-circle"
+                                                        style="width: 90px; height: 90px;" alt="">
+                                                </div>
+                                            </th>
+                                            <td class="py-5">{{ item.product.name }}</td>
+                                            <td class="py-5">{{ item.product.price }}Kshs</td>
+                                            <td class="py-5">{{item.quantity}}</td>
+                                            <td class="py-5">{{item.get_total}}/=</td>
+                                        </tr>
+                                        {% endfor %}
+                                        <th scope="row">
+                                        </th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                            </th>
+                                            <td class="py-5">
+                                                <p class="mb-0 text-dark text-uppercase py-3">TOTAL</p>
+                                            </td>
+                                            <td class="py-5"></td>
+                                            <td class="py-5"></td>
+                                            <td class="py-5">
+                                                <div class="py-3 border-bottom border-top">
+                                                    <p class="mb-0 text-dark">{{order.get_cart_total}}Kshs</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script
+            src="https://www.paypal.com/sdk/js?client-id=AX08wNLTRGzAYuz6W8d6PNnJPF_l9aO1NQ0Laud4Z070kFJLO9kQcHpnaYq0L6bbj07SyorwHj46IyFT&currency=USD"></script>
+
+        <script>
+            var total = '{{order.get_cart_total}}'
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+                // Set up the transaction
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: parseFloat(total).toFixed(2)
+                            }
+                        }]
+                    });
+                },
+
+                // Finalize the transaction
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        // Show a success message to the buyer
+                        submitFormData()
+                    });
+                }
+
+            }).render('#paypal-button-container');
+        </script>
+
+        <script type="text/javascript">
+            var shipping = true;
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                console.log('Form Submitted...');
+
+                // Change the button value to "Success"
+                document.getElementById('form-button').value = "Success";
+                document.getElementById('form-button-pod').value = "Success";
+
+                // Hide the form after submission
+                document.getElementById('shipping-info').classList.add('hidden');
+
+                // Show the payment information section
+                document.getElementById('payment-info').classList.remove('hidden');
+
+            });
+
+            function myFunction() {
+                var x = document.getElementById("payment-info");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+
+
+            function payOnDeliveryFunction() {
+                    console.log('Pay on Delivery button clicked');
+
+                    var shippingInfo = {
+                        'firstname': form.firstname.value,
+                        'lastname': form.lastname.value,
+                        'email': form.email.value,
+                        'address': form.address.value,
+                        'city': form.city.value,
+                        'state': form.state.value,
+                        'mobile': form.mobile.value,
+                        'order_notes': form.order_notes.value,
+                        'total': total,
+                        'payment_method': 'Pay on Delivery'
+                    };
+
+                    console.log('Shipping Info:', shippingInfo);
+
+                    var url = "/process_order/"
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken,
+                        },
+                        body: JSON.stringify({ 'shipping': shippingInfo }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log('Success:', data);
+                            alert('Order placed successfully with Pay on Delivery');
+
+                            cart = {}
+                            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+                            window.location.href = "{% url 'shop' %}"
+                        });
+                }
+
+
+            function submitFormData() {
+                console.log('Payment button clicked')
+
+                var shippingInfo = {
+                    'firstname': null,
+                    'lastname': null,
+                    'email': null,
+                    'address': null,
+                    'city': null,
+                    'state': null,
+                    'mobile': null,
+                    'order_notes': null,
+                    'total': total,
+                }
+
+                if (shipping != 'False') {
+                    shippingInfo.address = form.address.value
+                    shippingInfo.city = form.city.value
+                    shippingInfo.state = form.state.value
+                    shippingInfo.mobile = form.mobile.value
+                    shippingInfo.firstname = form.firstname.value
+                    shippingInfo.lastname = form.lastname.value
+                    shippingInfo.email = form.email.value
+                    shippingInfo.order_notes = form.order_notes.value
+                }
+
+                console.log('Shipping Info:', shippingInfo)
+
+                var url = "/process_order/"
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify({ 'shipping': shippingInfo }),
+
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log('Success:', data);
+                        alert('Transaction completed');
+
+                        cart = {}
+                        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+                        window.location.href = "{% url 'shop' %}"
+
+                    })
+            }
+        </script>
+        {% endblock %}

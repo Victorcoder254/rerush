@@ -1,0 +1,138 @@
+{% extends 'files/base.html' %}
+{% load static %}
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<hr>
+<br>
+<hr>
+<br>
+<div class="container mt-5"> <!-- Add mt-5 class for top margin -->
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- Sidebar -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Navigation</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#orders">Orders</a></li>
+                        <li class="list-group-item"><a href="{% url 'user_profile' %}">Profile</a></li>
+                        <li class="list-group-item"><a href="{% url 'contact' %}">Reach Us</a></li>
+                        <li class="list-group-item">
+                            <a href="{% url 'inbox' %}">Inbox
+                                {% if new_messages_count > 0 %}
+                                <span class="badge bg-primary rounded-pill">{{ new_messages_count }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9" id="orders">
+            {% if success_message %}
+            <div class="alert alert-success" role="alert">
+                {{ success_message }}
+            </div>
+            {% endif %}
+            <!-- Main Content -->
+            <div class="mb-5">
+                <hr>
+                <h2 class="mb-3">Your Unfulfilled Orders</h2>
+                <!-- Display user's unfulfilled orders here -->
+                {% for order, items in orders_with_items.items %}
+                <div class="card mb-3">
+                    <div class="card-header bg-warning text-white">Order id | {{ order.transaction_id }}</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Order Details</h5>
+                        <p class="card-text">Order Date: {{ order.date_ordered }}</p>
+                        <p class="card-text">Total Amount: {{ order.get_cart_total }}Kshs</p>
+                        <h5 class="card-title">Order Items</h5>
+
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#orderItemsCollapse{{ order.id }}" aria-expanded="false"
+                            aria-controls="orderItemsCollapse{{ order.id }}">
+                            Show Order Items
+                        </button>
+
+                        <div class="collapse mt-3" id="orderItemsCollapse{{ order.id }}">
+                            <ul class="list-group">
+                                <div class="row">
+                                    {% for item in items %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <img src="{{ item.product.image.url }}" class="card-img-top"
+                                                alt="{{ item.product.name }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                                <p class="card-text">Quantity: {{ item.quantity }}</p>
+                                                <a href="{% url 'shop_detail' item.product.pk %}"
+                                                    class="btn btn-primary">View
+                                                    Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <hr> <!-- Add a horizontal line for separation -->
+
+                <h2 class="mb-3">Your Fulfilled Orders</h2>
+                <!-- Display user's fulfilled orders here -->
+                {% for order, items in fulfilled_orders_with_items.items %}
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        Order id | {{ order.transaction_id }}
+                        <!-- Button to request refund -->
+                        <a href="{% url 'refund_request' order.transaction_id %}"
+                            class="btn btn-primary btn-sm float-end">Request
+                            Refund</a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Order Details</h5>
+                        <p class="card-text">Order Date: {{ order.date_ordered }}</p>
+                        <p class="card-text">Total Amount: {{ order.get_cart_total }}Kshs</p>
+                        <h5 class="card-title">Order Items</h5>
+
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#orderItemsCollapse{{ order.id }}" aria-expanded="false"
+                            aria-controls="orderItemsCollapse{{ order.id }}">
+                            Show Order Items
+                        </button>
+
+                        <div class="collapse mt-3" id="orderItemsCollapse{{ order.id }}">
+                            <ul class="list-group">
+                                <div class="row">
+                                    {% for item in items %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <img src="{{ item.product.image.url }}" class="card-img-top"
+                                                alt="{{ item.product.name }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                                <p class="card-text">Quantity: {{ item.quantity }}</p>
+                                                <a href="{% url 'shop_detail' item.product.pk %}"
+                                                    class="btn btn-primary">View
+                                                    Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

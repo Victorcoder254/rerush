@@ -1,0 +1,39 @@
+{% extends 'files/base.html' %}
+{% load static %}
+{% block title %}Refunds{% endblock %}
+{% block content %}
+<hr>
+<br>
+<hr>
+<br>
+<br>
+<hr>
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <h2 class="card-title">Request a Refund</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <!-- Remove the fulfilled_order_id field -->
+                            <label for="reason" class="form-label">Reason for Refund</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

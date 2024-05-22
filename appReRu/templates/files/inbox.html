@@ -1,0 +1,38 @@
+{% extends 'files/base.html' %}
+{% load static %}
+{% block title %}Inbox{% endblock %}
+{% block content %}
+<hr>
+<br>
+<br>
+<hr>
+<br>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Inbox</h2>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for message in user_inbox %}
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ message.subject }}</h5>
+                                <small>{{ message.sent_at|date:"F d, Y" }}</small>
+                            </div>
+                            <p class="mb-1">{{ message.body }}</p>
+                        </a>
+                        {% empty %}
+                        <div class="text-center text-muted">
+                            No messages
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'files/base1.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+            <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+                We are Honoured <br />
+                <span style="color: hsl(218, 81%, 75%)">to see you back</span>
+            </h1>
+            <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+                We're honored to have you here, and we can't wait to elevate your experience with our top-notch
+                service. Let's embark on
+                this adventure together!
+            </p>
+        </div>
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+            <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+            <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+            <div class="card bg-glass">
+                <div class="card-body px-4 py-5 px-md-5">
+
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                            <div class="alert alert-warning" style="text-align: center;" role="alert">
+                                {{ message }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <div class="row">
+                            <div class="form-outline mb-4">
+                                <input type="text" name="username" required id="form3Example1" class="form-control" />
+                                <label class="form-label" for="form3Example1">Username</label>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" required name="password" id="form3Example4"
+                                    class="form-control" />
+                                <label class="form-label" for="form3Example4">Password</label>
+                            </div>
+
+                            <!-- Checkbox -->
+                            <div class="form-check d-flex justify-content-center mb-4">
+                                <span>Ooops! Not yet registered? <a href="{% url 'register' %}">register</a></span>
+                            </div>
+
+                            <!-- Submit button -->
+                            <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Log in
+                            </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

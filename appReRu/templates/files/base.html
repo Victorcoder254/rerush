@@ -1,0 +1,380 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RetailRush | {% block title %}{% endblock %}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="keywords"
+        content="RetailRush, Liquidity500, liquidity500, liquidity, ecommerce platform, liquidation services, overstock liquidation, surplus inventory, online marketplace, Nairobi Kenya, Kenya ecommerce, liquidation company, wholesale platform, excess inventory, online selling, inventory management, business liquidation, B2B marketplace, retail solutions, ecommerce solutions, online retail, retail marketplace, inventory clearance, surplus goods, wholesale marketplace, liquidation marketplace, Kenya business, Nairobi business, ecommerce Nairobi, liquidation Nairobi, business liquidation Nairobi, online selling Nairobi, surplus inventory Nairobi">
+    <meta name="description"
+        content="RetailRush is the premier ecommerce platform powered by Liquidity500, a leading business dedicated to helping companies liquidate their overstocked goods. With RetailRush, businesses have a seamless solution to sell their excess inventory to online buyers, maximizing profitability and minimizing waste. Our platform offers a wide range of products across various categories, from electronics and apparel to home goods and beyond. Whether you're a manufacturer, retailer, or distributor, RetailRush provides a hassle-free way to reach a global audience of eager consumers. Leveraging cutting-edge technology and strategic marketing, we connect sellers with buyers, facilitating smooth transactions and ensuring customer satisfaction. Backed by the expertise of Liquidity500, RetailRush offers unparalleled support and guidance throughout the selling process, from inventory management to shipping logistics. Join RetailRush today to unlock new opportunities for your business and turn surplus inventory into revenue.">
+    <link rel="icon" href="{% static 'files/favicon.ico' %}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{% static 'files/favicon.ico' %}" type="image/x-icon" />
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'files/lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'files/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'files/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'files/css/style.css' %}" rel="stylesheet">
+
+    <script type="text/javascript">
+        var user = '{{request.user}}'
+
+        function getToken(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getToken('csrftoken')
+
+        function getCookie(name) {
+            // Split cookie string and get all individual name=value pairs in an array
+            var cookieArr = document.cookie.split(";");
+
+            // Loop through the array elements
+            for (var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+
+                /* Removing whitespace at the beginning of the cookie name
+                and compare it with the given string */
+                if (name == cookiePair[0].trim()) {
+                    // Decode the cookie value and return
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+
+            // Return null if not found
+            return null;
+        }
+        var cart = JSON.parse(getCookie('cart'))
+
+        if (cart == undefined) {
+            cart = {}
+            console.log('Cart Created!', cart)
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log('Cart:', cart)
+
+    </script>
+    <style>
+        .scrollable-container {
+            max-height: 100px;
+            /* Set a maximum height for the scrollable container */
+            overflow-y: auto;
+            /* Enable vertical scrollbar when content exceeds container height */
+            scrollbar-width: thin;
+            /* Firefox */
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+            width: 8px;
+            /* Width of the scrollbar */
+        }
+
+        /* Track */
+        .scrollable-container::-webkit-scrollbar-track {
+            background: orange;
+            /* Color of the track */
+        }
+
+        /* Handle */
+        .scrollable-container::-webkit-scrollbar-thumb {
+            background: orange;
+            /* Color of the scrollbar handle */
+            border-radius: 4px;
+            /* Border radius of the scrollbar handle */
+        }
+
+        /* Handle on hover */
+        .scrollable-container::-webkit-scrollbar-thumb:hover {
+            background: orange;
+            /* Color of the scrollbar handle on hover */
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <!-- Navbar start -->
+    <div class="container-fluid fixed-top">
+        <div class="container topbar bg-primary d-none d-lg-block">
+            <div class="d-flex justify-content-between">
+                <div class="top-info ps-2">
+                    <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a
+                            href="{% url 'contact' %}" class="text-white">{{contact.address}}</a></small>
+                    <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="{% url 'contact' %}"
+                            class="text-white">{{contact.email}}</a></small>
+                </div>
+                <div class="top-link pe-2">
+                    <a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal"><small
+                            class="text-white mx-2">Privacy Policy</small>/</a>
+                    <a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#termsConditionModal"><small
+                            class="text-white mx-2">Terms of Use</small></a>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a href="{% url 'shop' %}" class="navbar-brand">
+                    <h1 class="text-primary display-6">RetailRush</h1>
+                </a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a href="{% url 'shop' %}" class="nav-item nav-link active">Shop</a>
+                        <a href="{% url 'cart' %}" class="nav-item nav-link">Cart</a>
+                        <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <div class="d-flex m-3 me-0">
+                        <a href="{% url 'cart' %}" class="position-relative me-4 my-auto">
+                            <i class="fa fa-shopping-bag fa-2x"></i>
+                            <span
+                                class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cartItems}}</span>
+                        </a>
+                        <a href="{% url 'acc' %}" class="my-auto">
+                            <i class="fas fa-user fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+        <div class="container py-5">
+            <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                <div class="row g-4">
+                    <div class="col-lg-3">
+                        <a href="#">
+                            <h1 class="text-primary mb-0">RetailRush</h1>
+                            <p class="text-secondary mb-0">Get The Best</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="d-flex justify-content-end pt-3">
+                            <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle"
+                                href="{{social.twitter}}"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"
+                                href="{{social.facebook}}"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"
+                                href="{{social.youtube}}"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-secondary btn-md-square rounded-circle"
+                                href="{{social.linkedin}}"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex flex-column text-start footer-item">
+                        <h4 class="text-light mb-3">Shop Info</h4>
+                        <a class="btn-link" href="{% url 'contact' %}">Contact Us</a>
+                        <!-- Link to open Privacy Policy modal -->
+                        <a class="btn-link" href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal">Privacy
+                            Policy</a>
+                        <!-- Link to open Terms & Conditions modal -->
+                        <a class="btn-link" href="#" data-bs-toggle="modal" data-bs-target="#termsConditionModal">Terms
+                            & Condition</a>
+
+                        <!-- Link to open Return Policy modal -->
+                        <a class="btn-link" href="#" data-bs-toggle="modal" data-bs-target="#returnPolicyModal">Return
+                            Policy</a>
+                        <a class="btn-link" data-bs-toggle="modal" data-bs-target="#helpModal">FAQs & Help</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex flex-column text-start footer-item">
+                        <h4 class="text-light mb-3">Account</h4>
+                        <a class="btn-link" href="{% url 'acc' %}">My Account</a>
+                        <a class="btn-link" href="{% url 'cart' %}">Shopping Cart</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-item">
+                        <h4 class="text-light mb-3">Contact</h4>
+                        <p>Address: {{contact.address}}</p>
+                        <p>Email: {{contact.email}}</p>
+                        <p>Phone: {{contact.phone}}</p>
+                        <p>Payment Accepted</p>
+                        <img src="{% static 'files/img/payment.png' %}" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="privacyPolicyModalLabel">Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Insert your Privacy Policy content here -->
+                    {{privacy.policy}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div class="modal fade" id="termsConditionModal" tabindex="-1" aria-labelledby="termsConditionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsConditionModalLabel">Terms & Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Insert your Terms & Conditions content here -->
+                    {{term.terms}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Policy Modal -->
+    <div class="modal fade" id="returnPolicyModal" tabindex="-1" aria-labelledby="returnPolicyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="returnPolicyModalLabel">Return Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Insert your Return Policy content here -->
+                    {{return_policy.policy}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Faqs and Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="helpModalLabel">Faqs & Help</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- First content section -->
+                    <div class="content-section">
+                        <h5>Payment Made</h5>
+                        <p>{{ help.help_payment_made }}</p>
+                    </div>
+
+                    <!-- Second content section -->
+                    <div class="content-section">
+                        <h5>How to Use PayPal</h5>
+                        <p>{{ help.help_how_paypal }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom-Sticking Menu -->
+    <nav class="navbar navbar-light bg-white navbar-expand-xl fixed-bottom d-block d-xl-none" style="height: 70px;">
+        <div class="container d-flex align-items-center">
+            <a href="{% url 'shop' %}" class="nav-item nav-link"><i class="fas fa-store fa-2x"></i></a>
+            <a href="{% url 'cart' %}" class="position-relative me-4 my-auto">
+                <i class="fa fa-shopping-bag fa-2x"></i>
+                <span
+                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cartItems}}</span>
+            </a>
+            <a href="{% url 'contact' %}" class="nav-item nav-link"><i class="fas fa-envelope fa-2x"></i></a>
+
+            <a href="{% url 'acc' %}" class="nav-item nav-link active"><i class="fas fa-user fa-2x"></i></a>
+        </div>
+    </nav>
+    <!-- Bottom-Sticking Menu End -->
+
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright bg-dark py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="text-light"><a href="{% url 'shop' %}"><i
+                                class="fas fa-copyright text-light me-2"></i>RetailRush.LIQUIDITY500</a>,
+                        All right reserved.</span>
+                </div>
+                <div class="col-md-6 my-auto text-center text-md-end text-white">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                    Developed By <a class="border-bottom"
+                        href="https://www.linkedin.com/in/victor-okoth-5664692a3/">Victor Okoth</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+    <!-- Copyright End -->
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'files/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'files/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'files/lib/lightbox/js/lightbox.min.js' %}"></script>
+    <script src="{% static 'files/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+
+
+    <script src="{% static 'files/js/main.js' %}"></script>
+    <script src="{% static 'files/js/cart.js' %}"></script>
+</body>
+
+</html>

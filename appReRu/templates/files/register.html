@@ -1,0 +1,74 @@
+{% extends 'files/base1.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+    <div class="row gx-lg-5 align-items-center mb-5">
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+            <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+                Get Started Today:<br />
+                <span style="color: hsl(218, 81%, 75%)">Quick and Easy Registration!</span>
+            </h1>
+            <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+                "Welcome to Jirani Kenya! We're thrilled that you're considering joining our platform. Get ready
+                to unlock a
+                world of possibilities and convenience as you register with us. Your journey with us begins
+                here, and we're dedicated to
+                making it seamless, enjoyable, and rewarding. Let's create something amazing together!"
+            </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+            <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+            <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+            <div class="card bg-glass">
+                <div class="card-body px-4 py-5 px-md-5">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" name="firstname" id="form3Example1" class="form-control" />
+                                    <label class="form-label" for="form3Example1">First name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    <input type="text" name="lastname" id="form3Example2" class="form-control" />
+                                    <label class="form-label" for="form3Example2">Last name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="username" id="form3Example3" class="form-control" />
+                            <label class="form-label" for="form3Example3">Username</label>
+                        </div>
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="email" name="email" id="form3Example3" class="form-control" />
+                            <label class="form-label" for="form3Example3">Email address</label>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <input type="password" name="password" id="form3Example4" class="form-control" />
+                            <label class="form-label" for="form3Example4">Password</label>
+                        </div>
+
+                        <!-- Checkbox -->
+                        <div class="form-check d-flex justify-content-center mb-4">
+                            <span>Already registered? Click here. <a href="{% url 'login_user' %}">login</a></span>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-4">
+                            Sign up
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
