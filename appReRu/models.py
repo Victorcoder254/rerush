@@ -63,17 +63,7 @@ class Review(models.Model):
 
 
 class Category(models.Model):
-    JACKETS = "Jackets"
-    SWEATPANTS = "SweatPants"
-    CAPS = "Caps"
-
-    CATEGORY_CHOICES = [
-        (JACKETS, "JACKETS"),
-        (SWEATPANTS, "SWEATPANTS"),
-        (CAPS, "CAPS"),
-    ]
-
-    name = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"This is {self.name} Category"
