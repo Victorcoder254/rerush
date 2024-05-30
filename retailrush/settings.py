@@ -15,12 +15,12 @@ SECRET_KEY = "django-insecure-7+ltwm^f$#n(1&-cdv+oca*=%+nc8%*3^u2^m977ar^u=ntv93
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["liquidity500retailrush.site", "www.liquidity500retailrush.site"]
+ALLOWED_HOSTS = ["retailrush-ke.store", "www.retailrush-ke.store"]
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://www.liquidity500retailrush.site",
-    "https://liquidity500retailrush.site",
+    "https://www.retailrush-ke.store",
+    "https://retailrush-ke.store",
 ]
 # Application definition
 
